@@ -84,6 +84,8 @@ EbayRequest::Trading.new(digital_signature: true).response('GetAccount', ...some
 If gem is configured somewhere at initializer (shown above):
 
 ```ruby
+require "omniauth/strategies/ebay"
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :ebay
 end

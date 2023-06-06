@@ -22,8 +22,6 @@ require "ebay_request/auth"
 require "ebay_request/response"
 require "ebay_request/digital_signature"
 
-require "omniauth/strategies/ebay"
-
 module EbayRequest
   class << self
     attr_accessor :logger
