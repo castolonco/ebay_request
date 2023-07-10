@@ -9,10 +9,6 @@ class EbayRequest::ErrorItem
   option :severity, proc(&:to_s), comment: "Either +Error+ of +Warning+"
   option :params,   proc(&:to_h), default: -> { {} }, comment: "Variable parts of message"
 
-  def self.new(source)
-    super(source.to_h.transform_keys(&:to_sym))
-  end
-
   alias to_s message
 
   def inspect
