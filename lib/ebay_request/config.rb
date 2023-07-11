@@ -17,7 +17,7 @@ class EbayRequest::Config
 
   def initialize
     @sandbox = true
-    @version = 1331
+    @version = 1201
     @timeout = 60
   end
 
