@@ -93,14 +93,15 @@ class EbayRequest::Base
 
     response, time = make_request(url, post)
 
-    response_object = process(parse(response), callname)
+    response_object = process(parse(response.body), callname)
   ensure
     EbayRequest.log(
       url: url.to_s,
       callname: callname,
       headers: h,
       request_payload: b,
-      response_payload: response,
+      response_payload: response.body,
+      response_headers: response.to_hash,
       time: time,
       warnings: response_object&.warnings,
       errors: response_object&.errors,
@@ -113,7 +114,7 @@ class EbayRequest::Base
   def make_request(url, post)
     start_time = Time.now
     http = prepare(url)
-    response = http.start { |r| r.request(post) }.body
+    response = http.start { |r| r.request(post) }
     [response, Time.now - start_time]
   end
 

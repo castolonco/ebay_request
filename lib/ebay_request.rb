@@ -53,12 +53,13 @@ module EbayRequest
     def log_info(out)
       return if logger.nil?
 
-      logger.info "[EbayRequest] | Url      | #{out[:url]}"
-      logger.info "[EbayRequest] | Version  | #{out[:version]}"
-      logger.info "[EbayRequest] | Headers  | #{out[:headers]}"
-      logger.info "[EbayRequest] | Body     | #{out[:request_payload]}"
-      logger.info "[EbayRequest] | Response | #{fix_utf out[:response_payload]}"
-      logger.info "[EbayRequest] | Time     | #{out[:time]} #{out[:callname]}"
+      logger.info "[EbayRequest] | Url              | #{out[:url]}"
+      logger.info "[EbayRequest] | Version          | #{out[:version]}"
+      logger.info "[EbayRequest] | Request Headers  | #{out[:headers]}"
+      logger.info "[EbayRequest] | Request Body     | #{out[:request_payload]}"
+      logger.info "[EbayRequest] | Response Headers | #{out[:response_headers]}"
+      logger.info "[EbayRequest] | Response Body    | #{fix_utf out[:response_payload]}"
+      logger.info "[EbayRequest] | Time             | #{out[:time]} #{out[:callname]}"
     end
     # rubocop:enable Metrics/AbcSize
 
