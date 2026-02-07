@@ -53,17 +53,18 @@ module EbayRequest
     def log_info(out)
       return if logger.nil?
 
-      logger.info "[EbayRequest] | Url      | #{out[:url]}"
-      logger.info "[EbayRequest] | Version  | #{out[:version]}"
-      logger.info "[EbayRequest] | Headers  | #{out[:headers]}"
-      logger.info "[EbayRequest] | Body     | #{out[:request_payload]}"
-      logger.info "[EbayRequest] | Response | #{fix_utf out[:response_payload]}"
-      logger.info "[EbayRequest] | Time     | #{out[:time]} #{out[:callname]}"
+      logger.info "[EbayRequest] | Url              | #{out[:url]}"
+      logger.info "[EbayRequest] | Version          | #{out[:version]}"
+      logger.info "[EbayRequest] | Request Headers  | #{out[:headers]}"
+      logger.info "[EbayRequest] | Request Body     | #{out[:request_payload]}"
+      logger.info "[EbayRequest] | Response Headers | #{out[:response_headers]}"
+      logger.info "[EbayRequest] | Response Body    | #{fix_utf out[:response_payload]}"
+      logger.info "[EbayRequest] | Time             | #{out[:time]} #{out[:callname]}"
     end
     # rubocop:enable Metrics/AbcSize
 
     def log_warnings(out)
-      return if warn_logger.nil? || out[:warnings].empty?
+      return if warn_logger.nil? || out[:warnings].nil? || out[:warnings].empty?
 
       warn_logger.warn(
         "[EbayRequest] | #{out[:callname]} | #{out[:warnings].inspect}"
@@ -87,6 +88,8 @@ module EbayRequest
     end
 
     def fix_utf(response)
+      return "" if response.blank?
+
       response.encode(
         "UTF-8", undef: :replace, invalid: :replace, replace: " "
       )
