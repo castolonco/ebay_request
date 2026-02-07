@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe EbayRequest::DigitalSignature do
-  subject { described_class.new(params) }
+  subject { described_class.new(**params) }
   let(:config) do
     EbayRequest::Config.new.tap do |c|
       c.appid = "1"

@@ -21,7 +21,7 @@ describe EbayRequest::Trading do
       "X-Ebay-Api-App-Name" => "1",
       "X-Ebay-Api-Call-Name" => "AddItem",
       "X-Ebay-Api-Cert-Name" => "2",
-      "X-Ebay-Api-Compatibility-Level" => "941",
+      "X-Ebay-Api-Compatibility-Level" => "1201",
       "X-Ebay-Api-Dev-Name" => "3",
       "X-Ebay-Api-Siteid" => "0",
     }

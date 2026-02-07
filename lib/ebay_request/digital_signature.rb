@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "base64"
+
 # sign data with ebay digital signature method
 # https://developer.ebay.com/develop/guides/digital-signatures-for-apis#sigkey
 class EbayRequest::DigitalSignature
