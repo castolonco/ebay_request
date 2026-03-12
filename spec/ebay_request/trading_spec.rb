@@ -262,6 +262,43 @@ xmlns="urn:ebay:apis:eBLBaseComponents">\
     )
   end
 
+  it "#response with blank response includes HTTP context" do
+    stub_request(
+      :post, "https://api.sandbox.ebay.com/ws/api.dll"
+    )
+      .with(
+        body: failing_request,
+        headers: headers
+      )
+      .to_return(status: 503, body: "<html><body>Service Unavailable</body></html>")
+
+    expect { subject.response("AddItem", Item: { Title: "i" }) }
+      .to raise_error(EbayRequest::Error::BlankResponse) do |error|
+        expect(error.callname).to eq("AddItem")
+        expect(error.http_status).to eq("503")
+        expect(error.response_body).to include("Service Unavailable")
+        expect(error.message).to include("AddItem")
+        expect(error.message).to include("503")
+      end
+  end
+
+  it "#response with blank response and empty body" do
+    stub_request(
+      :post, "https://api.sandbox.ebay.com/ws/api.dll"
+    )
+      .with(
+        body: failing_request,
+        headers: headers
+      )
+      .to_return(status: 200, body: "")
+
+    expect { subject.response("AddItem", Item: { Title: "i" }) }
+      .to raise_error(EbayRequest::Error::BlankResponse) do |error|
+        expect(error.callname).to eq("AddItem")
+        expect(error.http_status).to eq("200")
+      end
+  end
+
   context("using IAF token") do
     subject { described_class.new(iaf_token_manager: token_manager) }
 
