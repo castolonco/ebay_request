@@ -58,10 +58,16 @@ class EbayRequest::Base
     MultiXml.parse(response)
   end
 
-  def process(response, callname)
+  def process(response, callname, http_response: nil)
     data = response["#{callname}Response"]
 
-    raise EbayRequest::Error::BlankResponse, "#{callname} response is blank" if data.nil?
+    if data.nil?
+      raise EbayRequest::Error::BlankResponse.new(
+        callname: callname,
+        http_status: http_response&.code,
+        response_body: http_response&.body
+      )
+    end
 
     EbayRequest::Response.new(
       callname, data, errors_for(data), self.class::FATAL_ERRORS
@@ -93,7 +99,7 @@ class EbayRequest::Base
 
     response, time = make_request(url, post)
 
-    response_object = process(parse(response.body), callname)
+    response_object = process(parse(response.body), callname, http_response: response)
   ensure
     EbayRequest.log(
       url: url.to_s,
